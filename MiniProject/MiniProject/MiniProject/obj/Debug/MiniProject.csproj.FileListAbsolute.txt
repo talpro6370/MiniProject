@@ -1,0 +1,10 @@
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\bin\Debug\MiniProject.exe.config
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\bin\Debug\MiniProject.exe
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\bin\Debug\MiniProject.pdb
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.csprojAssemblyReference.cache
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.Form1.resources
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.Properties.Resources.resources
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.csproj.GenerateResource.cache
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.csproj.CoreCompileInputs.cache
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.exe
+C:\Users\talpr\.dotnet\Mini Project - UI Thread\MiniProject\MiniProject\obj\Debug\MiniProject.pdb
