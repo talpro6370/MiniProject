@@ -14,8 +14,6 @@ namespace MiniProject
     public partial class Form1 : Form
     {
         private List<PictureBox> ballList = new List<PictureBox>();
-        private Action action;
-        private int index;
         public Form1()
         {
             InitializeComponent();
@@ -29,48 +27,11 @@ namespace MiniProject
         { 
             Ball.Visible = false;
         }
-        private int BallBoundaries(Point point,int index) // dx, dy = if =1  - > moving to the opposite side 
-                                                     // else if = -1     -> moving to the negative side.
-        {
-            int dx=0, dy=0;
-            // Boundaries //
-            if (ballList[index].Location.X + point.X + Ball.Width > this.ClientSize.Width)
-            {
-                dx = -1;
-                return dx;
-            }
-            if (ballList[index].Location.Y + point.Y + Ball.Height > this.ClientSize.Height)
-            { 
-                dy = -1;
-                return dy;
-            } 
-            if (ballList[index].Location.X - point.X > ballList[index].Location.X)
-            {
-                dx = 1;
-                return dx;
-            }
-            if (ballList[index].Location.Y - point.Y > ballList[index].Location.Y)
-            {
-                dy = 1;
-                return dy;
-            }
-            return 0;
-        }
+      
         private void BallLocationSet(PictureBox ball)
         {
             Random rnd = new Random();
             ball.Location = new Point(rnd.Next(0, this.ClientSize.Width - ball.Width), rnd.Next(0, this.ClientSize.Height - ball.Height));
-        }
-        private void BallMovement(Point point,int index)
-        {
-
-            if (BallBoundaries(point,index) == -1 || BallBoundaries(point, index) == 1)
-            {
-            }
-            else
-            {
-               ballList[ballList.LastIndexOf(ballList.Last())].Location = Generator();
-            }
         }
         private Point Generator()
         {
@@ -82,41 +43,49 @@ namespace MiniProject
         private void startBtn_Click(object sender, EventArgs e)
         {
             Ball.Visible = true;
-            startBtn.Visible = false;
-            index = 0;
             ballList.Add(Ball);
             BallLocationSet(Ball);
-            tasking();
-            index++;
+            moving(0);
         }
-        private async void tasking()
+        public async void moving(int index)
         {
-            while (true)
-            {
-                BallMovement(Generator(), 0);
-                await Task.Run(() =>
-                {
-                   BallMovement(Generator(), ballList.LastIndexOf(this.ballList.Last()));
-                   Thread.Sleep(10);
-                });
-
-            }
-        }
-
-        private void addBallBtn_Click(object sender, EventArgs e)
-        {
-            ballList.Add(ImageCreator());
-            index++;
-            Task.Run(() =>
+            int dx =1,dy= 1;          
+            await Task.Run(() =>
             {
                 while (true)
                 {
-                    Action a = ()=>BallMovement(Generator(), index);
-                    ballList[index].BeginInvoke(a);
-                    Thread.Sleep(10);
+                    if (ballList[index].Location.X + dx + ballList[index].Width > this.ClientSize.Width && ballList[index].Location.Y + dy + ballList[index].Height < this.ClientSize.Height)
+                    {
+                        dx = -1;
+                        ballList[index].Location = new Point(this.ballList[index].Location.X + dx, this.ballList[index].Location.Y + dy);
+                    }
+                    if (ballList[index].Location.Y + dy + ballList[index].Height > this.ClientSize.Height)
+                    {
+                        dy = -1;
+                        ballList[index].Location = new Point(this.ballList[index].Location.X + dx, this.ballList[index].Location.Y + dy);
+                    }
+                    if(ballList[index].Location.Y+dy<0)
+                    {
+                        dy = 1;
+                        ballList[index].Location = new Point(this.ballList[index].Location.X + dx, this.ballList[index].Location.Y + dy);
+                    }
+                    if(ballList[index].Location.X+dx<0)
+                    {
+                        dx = 1;
+                        ballList[index].Location = new Point(this.ballList[index].Location.X + dx, this.ballList[index].Location.Y + dy);
+                    }
+                    ballList[index].Location = new Point(this.ballList[index].Location.X + dx, this.ballList[index].Location.Y + dy);
+                    Thread.Sleep(20);
                 }
-
             });
+        }
+        private void addBallBtn_Click(object sender, EventArgs e)
+        {
+            ballList.Add(ImageCreator());
+            for (int i = 0; i < ballList.Count(); i++)
+            {
+                moving(i);
+            }
         }
         public PictureBox ImageCreator()
         {
@@ -130,6 +99,10 @@ namespace MiniProject
             this.Controls.Add(p);
             return p;
         }
-        
+
+        private void frm_menu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
     }
 }
